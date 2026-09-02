@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "181645912023",
+    "project_id": "triplogic-33010",
+    "storage_bucket": "triplogic-33010.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:181645912023:android:4ed1717945cfd1a9464d92",
+        "android_client_info": {
+          "package_name": "com.example.trip_logic"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCojgenF_3rL9QX_zZQJdOW3wXiZqivIiU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

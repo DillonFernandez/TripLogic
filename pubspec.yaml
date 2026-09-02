@@ -1,0 +1,58 @@
+name: trip_logic
+description: "A new Flutter project."
+publish_to: "none"
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.12.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+  flutter_svg: ^2.3.0
+  flutter_launcher_icons: ^0.14.4
+  flutter_native_splash: ^2.4.8
+
+  cloud_firestore: 6.6.0
+  firebase_auth: 6.5.4
+  firebase_core: 4.11.0
+
+  phone_form_field: ^10.0.18
+  intl: ^0.20.2
+  shared_preferences: ^2.5.5
+  http: ^1.6.0
+  geolocator: ^14.0.3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^6.0.0
+
+flutter_launcher_icons:
+  android: true
+  ios: false
+  image_path: "lib/assets/images/startup/app_icon.png"
+  adaptive_icon_background: "#1F7A5A"
+  adaptive_icon_foreground: "lib/assets/images/startup/app_icon.png"
+
+flutter_native_splash:
+  color: "#1F7A5A"
+  color_dark: "#1F7A5A"
+  image: "lib/assets/images/startup/app_icon.png"
+  android: true
+  ios: false
+  web: false
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - lib/assets/images/startup/bg.webp
+    - lib/assets/images/startup/icons8-facebook.svg
+    - lib/assets/images/startup/icons8-google.svg
+    - lib/assets/images/startup/splash_screen_bg.webp
+    - lib/assets/images/startup/app_icon.png
