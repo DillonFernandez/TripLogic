@@ -1,8 +1,20 @@
 <div align="center">
-  <img src="lib/assets/images/startup/app_icon.png" width="120" alt="Trip Logic logo">
+  <img src="lib/assets/images/startup/app_icon.png" width="200" height="200" alt="Trip Logic Logo">
+
   <h1>Trip Logic</h1>
-  <p><strong>Conversational, constraint-aware travel planning for Sri Lanka.</strong></p>
+
+  <p><em>Conversational, constraint-aware travel planning for Sri Lanka.</em></p>
+
+  <p>
+    <img src="https://img.shields.io/badge/Flutter-02569B?style=flat&logo=flutter&logoColor=white" alt="Flutter">
+    <img src="https://img.shields.io/badge/Dart-0175C2?style=flat&logo=dart&logoColor=white" alt="Dart">
+    <img src="https://img.shields.io/badge/Python-3776AB?style=flat&logo=python&logoColor=white" alt="Python">
+    <img src="https://img.shields.io/badge/FastAPI-009688?style=flat&logo=fastapi&logoColor=white" alt="FastAPI">
+    <img src="https://img.shields.io/badge/Firebase-DD2C00?style=flat&logo=firebase&logoColor=white" alt="Firebase">
+  </p>
 </div>
+
+---
 
 ## Overview
 
@@ -10,19 +22,52 @@ Trip Logic is an Android-focused Flutter application backed by FastAPI. Travelle
 
 OpenAI interprets language, while deterministic backend code controls validation, location verification, confirmation, provider requests, recommendation selection, and itinerary construction. Real places come from Foursquare, Sri Lankan localities and forecasts come from Open-Meteo, and route matrices come from OpenRouteService. Firebase Authentication secures the app, and Cloud Firestore stores each user's conversations and state.
 
+> **Academic Project**: Trip Logic demonstrates how conversational AI can be combined with deterministic backend validation, cloud persistence, and live travel services in a responsible location-aware application.
+
 ## Key Features
 
-- **Natural-language trip planning** with structured extraction of locations, dates, times, traveller details, transport modes, preferences, and corrections.
-- **Explicit confirmation workflow** that presents a complete, readable summary before recommendations or itinerary generation.
-- **Multi-request conversations** for attractions, restaurants, and hotels, including independent counts and localities for each request group.
-- **Real place discovery** through category-controlled Foursquare searches, with deduplication, bounded retries, locality checks, and geographic safety validation.
-- **Restaurant intent handling** that keeps cuisine preferences, dietary requirements, food avoidances, and meal intent separate without presenting search relevance as dietary certification.
-- **Flexible attraction discovery** for broad requests such as “surprise me” and specific interests such as museums, heritage, nature, waterfalls, beaches, wildlife, and hiking.
-- **Simple hotel discovery** without unrelated itinerary requirements, while complete itinerary requests can retain dates, traveller information, and accommodation preferences.
-- **Context-aware enrichment** with weather suitability when a usable visit date/time exists and OpenRouteService route information when a genuine route origin and travel mode exist.
-- **Recommendation cards** for provider-backed names, categories, addresses, distances, optional ratings and hours, route data, weather information, and concise explanations.
-- **Conversation persistence** with user-owned Firestore histories, pinned chats, chat renaming, search, and deletion.
-- **Account and profile tools** using Firebase email/password authentication, password reset, profile details, and persisted light/dark/system theme selection.
+<table>
+<tr>
+<td width="50%" valign="top">
+<h3>Conversational Planning</h3>
+<ul>
+<li>Natural-language extraction of trip details and preferences</li>
+<li>Deterministic validation and structured travel state</li>
+<li>Complete confirmation summaries before execution</li>
+<li>Corrections that preserve unaffected information</li>
+</ul>
+</td>
+<td width="50%" valign="top">
+<h3>Place Recommendations</h3>
+<ul>
+<li>Real hotels, restaurants, and attractions from Foursquare</li>
+<li>Independent counts and localities for multiple requests</li>
+<li>Cuisine, dietary, avoidance, and meal-intent handling</li>
+<li>Generic and interest-specific attraction discovery</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+<h3>Location-Aware Planning</h3>
+<ul>
+<li>Verified Sri Lankan locality resolution</li>
+<li>Search locality kept separate from route origin</li>
+<li>Weather enrichment when usable visit timing exists</li>
+<li>Route distance and duration when routing inputs exist</li>
+</ul>
+</td>
+<td width="50%" valign="top">
+<h3>Application Experience</h3>
+<ul>
+<li>Provider-backed recommendation cards with truthful unavailable states</li>
+<li>Firebase email/password authentication and user-owned data</li>
+<li>Searchable, pinnable, renameable conversation histories</li>
+<li>Persisted light, dark, and system theme preferences</li>
+</ul>
+</td>
+</tr>
+</table>
 
 ## How Trip Logic Works
 
@@ -57,6 +102,7 @@ The Flutter client provides the authentication, profile, conversation, history, 
 - obtains Firebase ID tokens for authenticated backend requests;
 - writes pending traveller messages and listens to user-owned Firestore chats;
 - sends revision-aware, idempotent conversation turns to FastAPI;
+- provides backend, Firestore, and permission-aware device-location service layers;
 - parses validated travel context and recommendation payloads; and
 - renders loading, confirmation, warning, error, recommendation, and itinerary messages.
 
@@ -83,32 +129,32 @@ Firebase Authentication supplies the client session and ID token verified by Fir
 
 The repository's FlutterFire configuration currently targets Android. Other Flutter platforms require their own Firebase configuration before they can run.
 
-## Current Integrations
+### External services
 
-| Service | Purpose in Trip Logic |
-| --- | --- |
-| OpenAI | Converts natural-language turns into a restricted structured interpretation; it does not invent or retrieve live place facts. |
-| Foursquare Places | Discovers real hotels, restaurants, and attractions and supplies supported place metadata. |
-| Open-Meteo Geocoding | Resolves and verifies Sri Lankan localities without an API key. |
-| Open-Meteo Forecast | Supplies hourly forecast data for supported visit dates without an API key. |
-| OpenRouteService | Calculates duration and distance matrices for supported driving, walking, and cycling routes. |
-| Firebase Authentication | Provides email/password registration, login, password reset, and authenticated sessions. |
-| Cloud Firestore | Persists profiles, chat summaries, messages, structured travel context, and idempotent backend responses. |
+| Service                 | Purpose in Trip Logic                                                                                                         |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| OpenAI                  | Converts natural-language turns into a restricted structured interpretation; it does not invent or retrieve live place facts. |
+| Foursquare Places       | Discovers real hotels, restaurants, and attractions and supplies supported place metadata.                                    |
+| Open-Meteo Geocoding    | Resolves and verifies Sri Lankan localities without an API key.                                                               |
+| Open-Meteo Forecast     | Supplies hourly forecast data for supported visit dates without an API key.                                                   |
+| OpenRouteService        | Calculates duration and distance matrices for supported driving, walking, and cycling routes.                                 |
+| Firebase Authentication | Provides email/password registration, login, password reset, and authenticated sessions.                                      |
+| Cloud Firestore         | Persists profiles, chat summaries, messages, structured travel context, and idempotent backend responses.                     |
 
 ## Technology Stack
 
-| Area | Implemented technology |
-| --- | --- |
-| Mobile client | Flutter, Dart (SDK constraint `^3.12.2`), Material 3 |
-| Client networking | `http` 1.6.0 |
-| Device capabilities | `geolocator` 14.0.3, `shared_preferences` 2.5.5 |
-| Backend | Python, FastAPI 0.139.2, Uvicorn 0.51.0 |
-| Validation | Pydantic 2.13.4, pydantic-settings 2.14.2 |
-| Async HTTP | HTTPX 0.28.1 |
-| AI SDK | OpenAI Python SDK 2.48.0 |
-| Authentication | `firebase_auth` 6.5.4, Firebase Admin 7.5.0 |
-| Database | `cloud_firestore` 6.6.0, Google Cloud Firestore 2.28.0 |
-| Testing | Python `unittest`, Flutter `flutter_test` |
+| Area                | Implemented technology                                 |
+| ------------------- | ------------------------------------------------------ |
+| Mobile client       | Flutter, Dart (SDK constraint `^3.12.2`), Material 3   |
+| Client networking   | `http` 1.6.0                                           |
+| Device capabilities | `geolocator` 14.0.3, `shared_preferences` 2.5.5        |
+| Backend             | Python, FastAPI 0.139.2, Uvicorn 0.51.0                |
+| Validation          | Pydantic 2.13.4, pydantic-settings 2.14.2              |
+| Async HTTP          | HTTPX 0.28.1                                           |
+| AI SDK              | OpenAI Python SDK 2.48.0                               |
+| Authentication      | `firebase_auth` 6.5.4, Firebase Admin 7.5.0            |
+| Database            | `cloud_firestore` 6.6.0, Google Cloud Firestore 2.28.0 |
+| Testing             | Python `unittest`, Flutter `flutter_test`              |
 
 Dependency versions are defined in [`pubspec.yaml`](pubspec.yaml) and [`backend/requirements.txt`](backend/requirements.txt).
 
@@ -176,15 +222,15 @@ When running, the health endpoint is available at `http://127.0.0.1:8000/health`
 
 ### Environment variables
 
-| Variable | Required | Purpose |
-| --- | --- | --- |
-| `FIREBASE_CREDENTIALS_PATH` | Yes | Path to the private Firebase Admin service-account JSON file. |
-| `FOURSQUARE_API_KEY` | Yes | Bearer credential for Foursquare Place Search. |
-| `OPENROUTESERVICE_API_KEY` | Yes | Credential for OpenRouteService route matrices. |
-| `OPENAI_API_KEY` | Yes | Credential used by the structured conversation interpreter. |
-| `OPENAI_MODEL` | No | OpenAI model identifier; defaults to `gpt-5-mini`. |
-| `APP_NAME` | No | FastAPI application title; defaults to `Trip Logic API`. |
-| `ENVIRONMENT` | No | Runtime environment label; defaults to `development`. |
+| Variable                    | Required | Purpose                                                       |
+| --------------------------- | -------- | ------------------------------------------------------------- |
+| `FIREBASE_CREDENTIALS_PATH` | Yes      | Path to the private Firebase Admin service-account JSON file. |
+| `FOURSQUARE_API_KEY`        | Yes      | Bearer credential for Foursquare Place Search.                |
+| `OPENROUTESERVICE_API_KEY`  | Yes      | Credential for OpenRouteService route matrices.               |
+| `OPENAI_API_KEY`            | Yes      | Credential used by the structured conversation interpreter.   |
+| `OPENAI_MODEL`              | No       | OpenAI model identifier; defaults to `gpt-5-mini`.            |
+| `APP_NAME`                  | No       | FastAPI application title; defaults to `Trip Logic API`.      |
+| `ENVIRONMENT`               | No       | Runtime environment label; defaults to `development`.         |
 
 `API_BASE_URL` is not a backend environment variable. It is supplied to Flutter with `--dart-define` at build/run time.
 
@@ -281,24 +327,30 @@ Current scope notes:
 - Android is the only FlutterFire platform configured in this repository.
 - Ratings and opening hours depend on Foursquare returning the approved optional metadata.
 - Weather enrichment requires a supported visit date and usable timing; otherwise it remains unavailable.
-- Device-location models and a permission-aware location service exist, but the current chat send flow does not yet attach device coordinates.
+- Device-location support exists at the service/model layer, but the current chat send flow does not attach device coordinates.
 - The client and models define message-edit operations, but the backend edit endpoint is not connected yet. Corrections made as new conversation turns are supported.
 
-## Screenshots
+## Academic Objectives
 
-> Screenshots will be added here as the interface evolves.
+Trip Logic brings together several practical software-engineering concerns in one academic system:
 
-The repository currently contains app branding and Android launch assets, but no genuine in-app screenshots.
+- design an Android Flutter client backed by a typed Python API;
+- combine natural-language interpretation with deterministic validation and state transitions;
+- integrate live place, geocoding, weather, and route services without fabricating missing facts;
+- apply authenticated, user-owned cloud persistence with idempotent request handling; and
+- validate complex conversational workflows through contract, regression, generated-state, and widget tests.
 
-## Contributing
+## Contact Information
 
-Keep changes narrowly scoped and preserve the separation between language interpretation and deterministic backend validation. Before opening a change:
+**Developer**: Dillon Fernandez
 
-1. add or update focused regression tests;
-2. run the affected backend and Flutter suites;
-3. run `flutter analyze`; and
-4. ensure secrets, generated credentials, and provider IDs intended to remain private are not exposed.
+**Email**: dillonfernandez@gmail.com
 
-## License
+**Institution**: APIIT
 
-License information has not yet been added to this repository.
+---
+
+<div align="center">
+  <p><strong>Disclaimer</strong></p>
+  <p><em>This is an academic project developed for educational purposes and is not intended for commercial use.</em></p>
+</div>
