@@ -176,7 +176,7 @@ trip_logic/
 │   └── widgets/                   # Recommendation presentation
 ├── test/                          # Maintained Flutter model/widget regressions
 ├── firebase.json                  # Firebase project and deployment configuration
-├── firestore.rules               # User-ownership security rules
+├── firestore.rules                # User-ownership security rules
 ├── pubspec.yaml                   # Flutter dependencies and assets
 └── run_trip_logic.ps1             # Windows backend + physical Android launcher
 ```
