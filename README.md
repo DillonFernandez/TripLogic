@@ -18,11 +18,19 @@
 
 ## Overview
 
-Trip Logic is an Android-focused Flutter application backed by FastAPI. Travellers describe what they need in natural language—from a simple restaurant search to a multi-stop day plan—and the system turns that conversation into validated, structured travel state.
+Trip Logic is an Android-focused Flutter application backed by FastAPI. Travellers describe what
+they need in natural language—from a simple restaurant search to a multi-stop day plan—and the
+system turns that conversation into validated, structured travel state.
 
-OpenAI interprets language, while deterministic backend code controls validation, location verification, confirmation, provider requests, recommendation selection, and itinerary construction. Real places come from Foursquare, Sri Lankan localities and forecasts come from Open-Meteo, and route matrices come from OpenRouteService. Firebase Authentication secures the app, and Cloud Firestore stores each user's conversations and state.
+OpenAI interprets language, while deterministic backend code controls validation, location
+verification, confirmation, provider requests, recommendation selection, and itinerary construction.
+Real places come from Foursquare, Sri Lankan localities and forecasts come from Open-Meteo, and
+route matrices come from OpenRouteService. Firebase Authentication secures the app, and Cloud
+Firestore stores each user's conversations and state.
 
-> **Academic Project**: Trip Logic demonstrates how conversational AI can be combined with deterministic backend validation, cloud persistence, and live travel services in a responsible location-aware application.
+> **Academic Project**: Trip Logic demonstrates how conversational AI can be combined with
+> deterministic backend validation, cloud persistence, and live travel services in a responsible
+> location-aware application.
 
 ## Key Features
 
@@ -90,13 +98,17 @@ flowchart LR
     R --> F
 ```
 
-The language model never calls travel providers directly. It returns a restricted interpretation; the backend applies that patch, verifies locations, calculates missing requirements, and chooses the next deterministic action. A clean confirmation dispatches the appropriate recommendation or itinerary pipeline immediately.
+The language model never calls travel providers directly. It returns a restricted interpretation;
+the backend applies that patch, verifies locations, calculates missing requirements, and chooses the
+next deterministic action. A clean confirmation dispatches the appropriate recommendation or
+itinerary pipeline immediately.
 
 ## Architecture
 
 ### Flutter application
 
-The Flutter client provides the authentication, profile, conversation, history, and recommendation-card interfaces. It:
+The Flutter client provides the authentication, profile, conversation, history, and
+recommendation-card interfaces. It:
 
 - initializes the configured Android Firebase application;
 - obtains Firebase ID tokens for authenticated backend requests;
@@ -106,11 +118,13 @@ The Flutter client provides the authentication, profile, conversation, history, 
 - parses validated travel context and recommendation payloads; and
 - renders loading, confirmation, warning, error, recommendation, and itinerary messages.
 
-The backend URL is a Dart compile-time setting named `API_BASE_URL`. Its Android-emulator default is `http://10.0.2.2:8000`.
+The backend URL is a Dart compile-time setting named `API_BASE_URL`. Its Android-emulator default is
+`http://10.0.2.2:8000`.
 
 ### FastAPI backend
 
-The Python backend exposes authenticated location, weather, place-search, route-matrix, recommendation, and conversation endpoints. Its conversation pipeline combines:
+The Python backend exposes authenticated location, weather, place-search, route-matrix,
+recommendation, and conversation endpoints. Its conversation pipeline combines:
 
 - OpenAI structured interpretation;
 - Pydantic request and state validation;
@@ -121,13 +135,18 @@ The Python backend exposes authenticated location, weather, place-search, route-
 - category, route, weather, traveller-fit, and search-relevance scoring; and
 - itinerary construction for sufficiently complete, confirmed requests.
 
-Firestore transactions provide ownership checks, optimistic context revisions, message validation, and request-level idempotency.
+Firestore transactions provide ownership checks, optimistic context revisions, message validation,
+and request-level idempotency.
 
 ### Firebase
 
-Firebase Authentication supplies the client session and ID token verified by Firebase Admin in FastAPI. Cloud Firestore stores data beneath user-owned paths such as `users/{uid}/chats/{chatId}` with nested messages and processed requests. The checked-in Firestore rules restrict each user to their own documents.
+Firebase Authentication supplies the client session and ID token verified by Firebase Admin in
+FastAPI. Cloud Firestore stores data beneath user-owned paths such as `users/{uid}/chats/{chatId}`
+with nested messages and processed requests. The checked-in Firestore rules restrict each user to
+their own documents.
 
-The repository's FlutterFire configuration currently targets Android. Other Flutter platforms require their own Firebase configuration before they can run.
+The repository's FlutterFire configuration currently targets Android. Other Flutter platforms
+require their own Firebase configuration before they can run.
 
 ### External services
 
@@ -156,7 +175,8 @@ The repository's FlutterFire configuration currently targets Android. Other Flut
 | Database            | `cloud_firestore` 6.6.0, Google Cloud Firestore 2.28.0 |
 | Testing             | Python `unittest`, Flutter `flutter_test`              |
 
-Dependency versions are defined in [`pubspec.yaml`](pubspec.yaml) and [`backend/requirements.txt`](backend/requirements.txt).
+Dependency versions are defined in [`pubspec.yaml`](pubspec.yaml) and [
+`backend/requirements.txt`](backend/requirements.txt).
 
 ## Project Structure
 
@@ -207,7 +227,8 @@ python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 ```
 
-Create `backend/.env` and configure the variables listed below. The file is excluded by [`backend/.gitignore`](backend/.gitignore).
+Create `backend/.env` and configure the variables listed below. The file is excluded by [
+`backend/.gitignore`](backend/.gitignore).
 
 Start FastAPI from the `backend` directory:
 
@@ -218,7 +239,8 @@ Start FastAPI from the `backend` directory:
   --log-level debug
 ```
 
-When running, the health endpoint is available at `http://127.0.0.1:8000/health`, and FastAPI's interactive API documentation is available at `http://127.0.0.1:8000/docs`.
+When running, the health endpoint is available at `http://127.0.0.1:8000/health`, and FastAPI's
+interactive API documentation is available at `http://127.0.0.1:8000/docs`.
 
 ### Environment variables
 
@@ -232,18 +254,21 @@ When running, the health endpoint is available at `http://127.0.0.1:8000/health`
 | `APP_NAME`                  | No       | FastAPI application title; defaults to `Trip Logic API`.      |
 | `ENVIRONMENT`               | No       | Runtime environment label; defaults to `development`.         |
 
-`API_BASE_URL` is not a backend environment variable. It is supplied to Flutter with `--dart-define` at build/run time.
+`API_BASE_URL` is not a backend environment variable. It is supplied to Flutter with `--dart-define`
+at build/run time.
 
 ### Firebase configuration
 
-The repository contains Android FlutterFire output, [`firebase.json`](firebase.json), and [`firestore.rules`](firestore.rules). Before running against another Firebase project:
+The repository contains Android FlutterFire output, [`firebase.json`](firebase.json), and [
+`firestore.rules`](firestore.rules). Before running against another Firebase project:
 
 1. configure that project's Android application;
 2. enable Email/Password Authentication and Cloud Firestore;
 3. ensure the Android client configuration matches the selected project; and
 4. point `FIREBASE_CREDENTIALS_PATH` at a private Firebase Admin service-account file.
 
-Do not place the Admin service-account JSON in source control. The backend ignore rules cover the expected `*-firebase-adminsdk-*.json` naming pattern.
+Do not place the Admin service-account JSON in source control. The backend ignore rules cover the
+expected `*-firebase-adminsdk-*.json` naming pattern.
 
 ### Running the Flutter app
 
@@ -255,7 +280,9 @@ flutter pub get
 flutter devices
 ```
 
-For a connected physical Android device, the repository launcher verifies `backend\.venv`, starts FastAPI on port `8000` when necessary, establishes ADB reverse port forwarding, and runs Flutter with the correct loopback URL:
+For a connected physical Android device, the repository launcher verifies `backend\.venv`, starts
+FastAPI on port `8000` when necessary, establishes ADB reverse port forwarding, and runs Flutter
+with the correct loopback URL:
 
 ```powershell
 .\run_trip_logic.ps1
@@ -268,11 +295,14 @@ The equivalent manual device commands are:
 flutter run --dart-define=API_BASE_URL=http://127.0.0.1:8000
 ```
 
-For an Android emulator, `flutter run` uses the checked-in default backend address `http://10.0.2.2:8000`.
+For an Android emulator, `flutter run` uses the checked-in default backend address
+`http://10.0.2.2:8000`.
 
 ## Testing
 
-The backend suite contains provider contracts, conversation regressions, generated invariant cases, state-machine sequences, retry/failure simulations, locality checks, and recommendation-budget tests. All provider calls are mocked in automated tests.
+The backend suite contains provider contracts, conversation regressions, generated invariant cases,
+state-machine sequences, retry/failure simulations, locality checks, and recommendation-budget
+tests. All provider calls are mocked in automated tests.
 
 Run the backend suite from `backend`:
 
@@ -297,38 +327,56 @@ Run static analysis with:
 flutter analyze
 ```
 
-Live provider tests should remain small and deliberate; credentials must never be printed or embedded in fixtures.
+Live provider tests should remain small and deliberate; credentials must never be printed or
+embedded in fixtures.
 
 ## Foursquare Design Notes
 
-- The backend owns all category IDs and uses Foursquare Place Search for hotel, restaurant, and attraction discovery.
-- Verified search locality and route origin are separate concepts. Named localities use their canonical Sri Lankan name for discovery, while trusted coordinates remain the geographic safety reference.
-- Generic attraction requests use broad, category-only discovery; specific interests retain useful semantic intent.
-- Restaurant cuisine, dietary requirements, avoidances, and meal intent remain separate. Provider search relevance is not treated as dietary certification.
-- Search results are normalized, coordinate-checked, locality-checked where evidence is strong, deduplicated by stable provider identity, and bounded before downstream route enrichment.
-- Rating and structured opening hours are optional. They remain unavailable when the provider does not return them; the application never substitutes zero, guessed hours, or hotel stars.
-- The implementation reuses one Foursquare client per recommendation task, supports bounded grouped concurrency, and does not add per-place Details requests.
+- The backend owns all category IDs and uses Foursquare Place Search for hotel, restaurant, and
+  attraction discovery.
+- Verified search locality and route origin are separate concepts. Named localities use their
+  canonical Sri Lankan name for discovery, while trusted coordinates remain the geographic safety
+  reference.
+- Generic attraction requests use broad, category-only discovery; specific interests retain useful
+  semantic intent.
+- Restaurant cuisine, dietary requirements, avoidances, and meal intent remain separate. Provider
+  search relevance is not treated as dietary certification.
+- Search results are normalized, coordinate-checked, locality-checked where evidence is strong,
+  deduplicated by stable provider identity, and bounded before downstream route enrichment.
+- Rating and structured opening hours are optional. They remain unavailable when the provider does
+  not return them; the application never substitutes zero, guessed hours, or hotel stars.
+- The implementation reuses one Foursquare client per recommendation task, supports bounded grouped
+  concurrency, and does not add per-place Details requests.
 
 ## Security and Configuration
 
-- Never commit `backend/.env`, Firebase Admin service-account files, API keys, bearer tokens, or copied request headers.
-- Keep OpenAI, Foursquare, and OpenRouteService credentials on the backend; Flutter receives only the backend base URL.
-- FastAPI verifies Firebase bearer tokens and rechecks Firestore ownership for conversation operations.
+- Never commit `backend/.env`, Firebase Admin service-account files, API keys, bearer tokens, or
+  copied request headers.
+- Keep OpenAI, Foursquare, and OpenRouteService credentials on the backend; Flutter receives only
+  the backend base URL.
+- FastAPI verifies Firebase bearer tokens and rechecks Firestore ownership for conversation
+  operations.
 - Firestore rules restrict profile and chat access to the authenticated user ID.
 - Conversation revisions and request IDs protect against stale updates and duplicate processing.
-- Treat provider responses as untrusted input: missing or malformed optional data remains unavailable rather than being invented.
+- Treat provider responses as untrusted input: missing or malformed optional data remains
+  unavailable rather than being invented.
 
 ## Development Status
 
-Trip Logic is an actively developed software-engineering project. Its Foursquare-backed conversation and recommendation paths have focused contract, regression, generated-state, and widget coverage, but this README does not characterize the application as production-ready.
+Trip Logic is an actively developed software-engineering project. Its Foursquare-backed conversation
+and recommendation paths have focused contract, regression, generated-state, and widget coverage,
+but this README does not characterize the application as production-ready.
 
 Current scope notes:
 
 - Android is the only FlutterFire platform configured in this repository.
 - Ratings and opening hours depend on Foursquare returning the approved optional metadata.
-- Weather enrichment requires a supported visit date and usable timing; otherwise it remains unavailable.
-- Device-location support exists at the service/model layer, but the current chat send flow does not attach device coordinates.
-- The client and models define message-edit operations, but the backend edit endpoint is not connected yet. Corrections made as new conversation turns are supported.
+- Weather enrichment requires a supported visit date and usable timing; otherwise it remains
+  unavailable.
+- Device-location support exists at the service/model layer, but the current chat send flow does not
+  attach device coordinates.
+- The client and models define message-edit operations, but the backend edit endpoint is not
+  connected yet. Corrections made as new conversation turns are supported.
 
 ## Academic Objectives
 
@@ -338,14 +386,13 @@ Trip Logic brings together several practical software-engineering concerns in on
 - combine natural-language interpretation with deterministic validation and state transitions;
 - integrate live place, geocoding, weather, and route services without fabricating missing facts;
 - apply authenticated, user-owned cloud persistence with idempotent request handling; and
-- validate complex conversational workflows through contract, regression, generated-state, and widget tests.
+- validate complex conversational workflows through contract, regression, generated-state, and
+  widget tests.
 
 ## Contact Information
 
 **Developer**: Dillon Fernandez
-
 **Email**: dillonfernandez@gmail.com
-
 **Institution**: APIIT
 
 ---

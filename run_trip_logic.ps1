@@ -50,13 +50,13 @@ if (-not $backendRunning) {
     }
 }
 
-& $adb reverse tcp:8000 tcp:8000
+& $adb -s emulator-5554 reverse tcp:8000 tcp:8000
 
 if ($LASTEXITCODE -ne 0) {
-    throw "ADB port forwarding failed. Confirm that the phone is connected."
+    throw "ADB port forwarding failed. Confirm that the Pixel 9 emulator is running."
 }
 
 Set-Location $projectRoot
 
-flutter run --dart-define=API_BASE_URL=http://127.0.0.1:8000
+flutter run -d emulator-5554 --dart-define=API_BASE_URL=http://127.0.0.1:8000
 
