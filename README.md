@@ -391,9 +391,7 @@ Trip Logic brings together several practical software-engineering concerns in on
 
 ## Contact Information
 
-**Developer**: Dillon Fernandez
-**Email**: dillonfernandez@gmail.com
-**Institution**: APIIT
+**Developer**: Dillon Fernandez<br>**Email**: dillonfernandez@gmail.com<br>**Institution**: APIIT
 
 ---
 
