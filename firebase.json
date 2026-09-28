@@ -1,0 +1,30 @@
+{
+  "firestore": {
+    "database": "(default)",
+    "location": "asia-south1",
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
+  "auth": {
+    "providers": {}
+  },
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "triplogic-33010",
+          "appId": "1:181645912023:android:4ed1717945cfd1a9464d92",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "triplogic-33010",
+          "configurations": {
+            "android": "1:181645912023:android:4ed1717945cfd1a9464d92"
+          }
+        }
+      }
+    }
+  }
+}
